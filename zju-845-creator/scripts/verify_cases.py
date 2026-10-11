@@ -30,7 +30,7 @@ print("PASS T3 Nyquist")
 
 # T4: Jury and unit-circle boundary
 poly=z*z+(k-s.Rational(1,2))*z+k/2
-eq(poly.subs({z:1,k:2}),4)
+eq(poly.subs({z:1,k:2}),s.Rational(7,2))
 eq(s.factor(poly.subs(k,2)),z*z+s.Rational(3,2)*z+1)
 print("PASS T4 discrete Jury")
 
@@ -47,7 +47,7 @@ print("PASS T5 symmetric realization")
 # T6: inverse design K=10,p=-2
 A2=s.Matrix([[-2,0,-1],[0,-2,3],[-1,3,1]])
 B2=s.Matrix([3,1,0])
-assert A2*A2.T==A2*A2 and A2*B2==-2*B2
+assert A2==A2.T and A2*B2==-2*B2
 assert A2.eigenvals()=={-4:1,-2:1,3:1}
 eq((B2.T*(z*s.eye(3)-A2).inv()*B2)[0],10/(z+2))
 print("PASS T6 fixed answer")
