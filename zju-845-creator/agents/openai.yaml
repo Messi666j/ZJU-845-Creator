@@ -1,0 +1,4 @@
+interface:
+  display_name: "ZJU-845-Creator"
+  short_description: "浙大845同构命题：重思维、轻繁算、严格验算"
+  default_prompt: "使用 $zju-845-creator 进行同构改编。先完整验算，只展示新题和不泄密的命题说明。"
