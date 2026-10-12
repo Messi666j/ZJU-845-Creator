@@ -16,3 +16,5 @@ jobs:
         run: python zju-845-creator/scripts/validate_skill.py
       - name: Check mathematical fixtures
         run: python zju-845-creator/scripts/verify_cases.py
+      - name: Test question classification and archiving
+        run: python -m unittest discover -s zju-845-creator/tests -p 'test_*.py'

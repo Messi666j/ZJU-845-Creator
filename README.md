@@ -33,6 +33,38 @@
 | 追求复杂参数与繁琐运算 | 优先整数、可分解多项式、结构性巧算 |
 | 默认给出答案，破坏练习体验 | **默认只给题目**，提示和详解按需展开 |
 
+## 🗂️ 自动分类与题库归档
+
+现在支持**识别题目主考点、按章节创建文件夹、关联原题与同构改编题、保存题目与元数据**。核心分类包括数学模型、时域分析、根轨迹、频域分析、离散系统、非线性控制、现代控制，另设综合题与待分类。以题目核心解法而非孤立关键词判定类别；其他考点通过标签记录。
+
+```text
+question-bank/
+├── 01-数学模型/
+├── 02-时域分析/
+├── 03-根轨迹/
+├── 04-频域分析/
+│   └── Q20261012-001/
+│       ├── original.md
+│       ├── variant.md
+│       ├── metadata.json
+│       └── attachments/          # 可选原图、PDF
+├── 05-离散系统/
+├── 06-非线性控制/
+├── 07-现代控制/
+├── 08-综合题/
+└── 99-待分类/
+```
+
+```bash
+python zju-845-creator/scripts/organize_questions.py init --root question-bank
+python zju-845-creator/scripts/organize_questions.py classify --input questions.json
+python zju-845-creator/scripts/organize_questions.py save --input questions.json --root question-bank
+```
+
+输入 JSON 可以是一道题或多道题的数组，建议设置 `category` 确保 Agent 的语义判断被保留。每题支持 `id,title,original,variant,category,tags,mode,source_id,attachment_paths`。默认不存解析；明确要求保存时才使用 `--include-solution`。脚本只写本地，不自动提交到 GitHub；没有文件权限的 Agent 应提供归档计划而不能假装创建成功。
+
+[分类与归档完整说明](zju-845-creator/references/question-organization.md)
+
 ## 🚀 快速安装
 
 ### 方式一：Skills CLI（推荐）
@@ -153,7 +185,7 @@ Skill 的质量闸门要求：**考点同构、技巧保留、难度相当、纸
     ├── SKILL.md                      # 唯一核心入口
     ├── agents/openai.yaml            # UI 展示元数据
     ├── references/                   # 分领域核查、命题质量与输入风格
-    ├── scripts/                      # 校验辅助代码
+    ├── scripts/                      # 数学验算与自动分类归档工具
     ├── assets/                       # 内部答案自检清单
     └── tests/                        # 五类基准例题与验收记录
 ~~~
@@ -167,6 +199,7 @@ cd zju-845-creator
 python -m pip install -r requirements-dev.txt
 python scripts/validate_skill.py
 python scripts/verify_cases.py
+python -m unittest discover -s tests -p 'test_*.py'
 ~~~
 
 测试涵盖时域、根轨迹、Nyquist、离散 Jury、现代控制，以及指定 `K=10, p=-2` 的逆向命题构造；附带负向错误检出。详细内容见 [casebook](zju-845-creator/tests/casebook.md) 和 [acceptance report](zju-845-creator/tests/acceptance-report.md)。

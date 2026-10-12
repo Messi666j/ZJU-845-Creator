@@ -16,7 +16,8 @@ for phrase in ("先解原题", "独立验算", "同构训练", "巧思强化", "
     assert phrase in entry, phrase
 for path in ("agents/openai.yaml", "README.md", "references/quality-rubric.md",
              "references/domain-checks.md", "references/input-and-style.md",
-             "assets/private-solution-checklist.md", "scripts/verify_cases.py", "tests/casebook.md"):
+             "assets/private-solution-checklist.md", "scripts/verify_cases.py", "tests/casebook.md",
+             "scripts/organize_questions.py", "references/question-organization.md"):
     assert (root / path).is_file(), path
 assert yaml.safe_load((root / "agents/openai.yaml").read_text(encoding="utf-8"))["interface"]["display_name"] == "ZJU-845-Creator"
 print("PASS Skill frontmatter, trigger instructions and directory structure")
